@@ -160,4 +160,10 @@ public class Order {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "Order{" + "id=" + id + ", username=" + username + ", car=" + car + ", renterFullname=" + renterFullname + ", renterEmail=" + renterEmail + ", renterAddress=" + renterAddress + ", renterCity=" + renterCity + ", renterPhone=" + renterPhone + ", pickupDate=" + pickupDate + ", dropoffDate=" + dropoffDate + ", pickupAddress=" + pickupAddress + ", dropoffAddress=" + dropoffAddress + ", amount=" + amount + ", status=" + status + '}';
+    }
+
+    
 }

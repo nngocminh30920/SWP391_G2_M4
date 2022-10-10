@@ -6,7 +6,10 @@
 package dal;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import model.Order;
 
 /**
@@ -40,5 +43,33 @@ public class OrderDAO extends BaseDAO<Order> {
         } catch (SQLException e) {
             System.out.println(e);
         }
+    }
+    public List<Order> getOrder() {
+        String sql = "SELECT * FROM Orders ";
+        List<Order> list = new ArrayList<>();
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                list.add(new Order(rs.getInt("OrderID"),
+                        rs.getString("Username"),
+                        db.getCarByID(rs.getInt("CarID")),
+                        rs.getString("RenterFullname"),
+                        rs.getString("RenterEmail"),
+                        rs.getString("RenterAddress"),
+                        rs.getString("RenterCity"),
+                        rs.getInt("RenterPhone"),
+                        rs.getString("PickupAddress"),
+                        rs.getString("DropoffAddress"),
+                        rs.getDate("PickupDate"),
+                        rs.getDate("DropoffDate"),
+                        rs.getDouble("Amount"),
+                        rs.getString("Status"))
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
     }
 }

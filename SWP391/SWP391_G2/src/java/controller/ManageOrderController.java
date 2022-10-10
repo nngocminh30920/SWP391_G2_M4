@@ -75,6 +75,6 @@ public class ManageOrderController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }
