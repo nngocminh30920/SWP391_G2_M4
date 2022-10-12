@@ -92,4 +92,34 @@ public class CarDAO extends BaseDAO<Order>{
             System.out.println(e);
         }
     }
+      
+      public List<String> getCarBrand() {
+        String sql = "SELECT DISTINCT Brand FROM Cars";
+        List<String> list = new ArrayList<>();
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                list.add(rs.getString(1));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public List<String> getCarType() {
+        String sql = "SELECT DISTINCT Type FROM Cars";
+        List<String> list = new ArrayList<>();
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                list.add(rs.getString(1));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
 }
