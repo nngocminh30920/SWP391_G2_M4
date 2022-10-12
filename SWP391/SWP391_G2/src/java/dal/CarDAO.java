@@ -70,4 +70,26 @@ public class CarDAO extends BaseDAO<Order>{
         }
         return null;
     }
+      
+      public void insert(Car c) {
+        String sql = "INSERT INTO [dbo].[Cars] ([Owner], [Brand], [Model], [Type], "
+                + "[Tranmission], [Seat], [Door], [Price],[Image],[Description]) "
+                + "VALUES (?,?,?,?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, c.getOwner());
+            st.setString(2, c.getBrand());
+            st.setString(3, c.getModel());
+            st.setString(4, c.getType());
+            st.setString(5, c.getTranmission());
+            st.setInt(6, c.getSeat());
+            st.setInt(7, c.getDoor());
+            st.setDouble(8, c.getPrice());
+            st.setString(9, c.getImage());
+            st.setString(10, c.getDescription());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
 }
