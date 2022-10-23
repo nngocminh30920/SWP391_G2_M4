@@ -32,9 +32,10 @@ public class LogoutController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
+        //Check is user logging in ?
         if (session.getAttribute("user") != null) {
-            session.removeAttribute("user");
-            request.getRequestDispatcher("/pages/home.jsp").forward(request, response);
+            session.removeAttribute("user");//Remove user
+            request.getRequestDispatcher("/pages/home.jsp").forward(request, response);//Return Home Page
         }
     }
 
