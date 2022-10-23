@@ -73,7 +73,8 @@ public class LoginController extends HttpServlet {
             String password = getMd5(request.getParameter("password"));
             String remember = request.getParameter("remember");
             AccountDAO db = new AccountDAO();
-            Account account = db.getAcount(username, password, 1);
+            Account account = db.getAcount(username, password, 1);//Get account from database
+            //Check account is available
             if (account != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", account);
