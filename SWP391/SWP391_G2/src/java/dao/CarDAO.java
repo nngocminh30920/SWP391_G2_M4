@@ -76,6 +76,12 @@ public class CarDAO extends BaseDAO<Car> {
         return list;
     }
 
+    /*
+    insert car object into the database
+    @brand the value of one of car details 
+    @type the value of one of car details 
+    @direct the value of one of car details
+    */
     public List<Car> searchBy(String brand, String type, String direct) {
         String sql = "SELECT * FROM Cars WHERE 1 = 1 ";
         List<Car> list = new ArrayList<>();
@@ -135,6 +141,12 @@ public class CarDAO extends BaseDAO<Car> {
         }
         return null;
     }
+    
+    
+    /*
+    insert car object into the database
+    @car deatails of car. car object
+    */
 
     public void insert(Car c) {
         String sql = "INSERT INTO [dbo].[Cars] ([Owner], [Brand], [Model], [Type], "

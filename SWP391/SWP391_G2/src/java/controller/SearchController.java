@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import model.Car;
 
 /**
- *
- * @author ADMIN
+ * this class contain post method for search function 
+ * @author Cao Hong Phuc
  */
 public class SearchController extends HttpServlet {
 

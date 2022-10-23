@@ -24,8 +24,8 @@ import model.Car;
 import model.Image;
 
 /**
- *
- * @author ADMIN
+ * this class contain post method for add car function 
+ * @author Cao Hong Phuc
  */
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10, // 10MB
