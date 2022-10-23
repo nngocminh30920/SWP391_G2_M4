@@ -5,7 +5,7 @@
  */
 package controller;
 
-import dal.OrderDAO;
+import dao.OrderDAO;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -75,6 +75,6 @@ public class ManageOrderController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }
+    }// </editor-fold>
 
 }

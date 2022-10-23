@@ -45,7 +45,7 @@
                         <li><a href="../../Demo/pages/contactUs.jsp">Contact Us</a></li>
                     </ul>
                 </div>
-                <div id="copyright">© Copyright Dung - Project</div>
+                <div id="copyright">© Copyright M4-G2 - Project</div>
                 <br class="clear" />
             </div>
         </div>

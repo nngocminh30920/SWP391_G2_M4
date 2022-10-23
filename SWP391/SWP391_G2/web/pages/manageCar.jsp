@@ -1,6 +1,6 @@
 <%@page import="model.Car"%>
-<%@page import="dal.OrderDAO"%>
-<%@page import="dal.CarDAO"%>
+<%@page import="dao.OrderDAO"%>
+<%@page import="dao.CarDAO"%>
 <%@page import="model.Account"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>

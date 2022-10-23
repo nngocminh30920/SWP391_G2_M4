@@ -5,8 +5,8 @@
  */
 package controller;
 
-import dal.CarDAO;
-import dal.ImageDAO;
+import dao.CarDAO;
+import dao.ImageDAO;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;

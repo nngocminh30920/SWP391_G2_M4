@@ -1,6 +1,7 @@
 <%@page import="model.Account"%>
-<%@page import="dal.OrderDAO"%>
+<%@page import="dao.OrderDAO"%>
 <%@page import="model.Car"%>
+<%@page import="dao.CommentDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -21,7 +22,111 @@
     </head>
 
     <body>
-      
+        <c:if test="${requestScope.car == null}">
+            <% request.setAttribute("error", "Not found information <br> about the car!");%>
+            <% request.setAttribute("mess", "Go to home");%>
+            <% request.setAttribute("href", "../../Demo/pages/home.jsp");%>
+            <% request.getRequestDispatcher("/pages/error.jsp").forward(request, response);%>
+        </c:if>
+        <div id="wrapper" class="hasbg transparent">
+            <%@include file="nav.jsp" %>
+            <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+                <div class="carousel-inner" role="listbox">
+                    <div class="carousel-item active">
+                        ${requestScope.car.image}                        <img class="d-block img-fluid" src="../../Demo/assets/image/${requestScope.car.image}" style="width: 100%; height: 700px;">
+                    </div>
+                    <c:forEach items="${requestScope.listImage}" var="i">
+                        <div class="carousel-item">
+                            <img class="d-block img-fluid" src="../../Demo/assets/image/${i.name}" style="width: 100%; height: 700px;">
+                        </div>
+                    </c:forEach>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <c:if test="${requestScope.car != null}">
+                <!-- Begin content -->
+                <div id="page_content_wrapper" class="hasbg withtopbar ">
+                    <div class="inner">
+                        <div class="sidebar_content">
+                            <h1>${requestScope.car.brand} ${requestScope.car.model}</h1>
+                            <div class="single_car_attribute_wrapper">
+                                <div class="one_fourth">
+                                    <div class="car_attribute_icon"><i class="fas fa-user"></i></div>
+                                    <div class="car_attribute_content">&nbsp;${requestScope.car.seat}&nbsp;Passengers </div>
+                                </div>
+                                <div class="one_fourth ">
+                                    <div class="car_attribute_icon"><i class="fas fa-car-side"></i></div>
+                                    <div class="car_attribute_content">&nbsp;${requestScope.car.door}&nbsp; Doors </div>
+                                </div>
+                                <div class="one_fourth">
+                                    <div class="car_attribute_icon"><i class="fab fa-steam"></i></div>
+                                    <div class="car_attribute_content">&nbsp;${requestScope.car.type}</div>
+                                </div>
+                                <div class="one_fourth last">
+                                    <div class="car_attribute_icon"><i class="fas fa-cogs"></i></div>
+                                    <div class="car_attribute_content">&nbsp;${requestScope.car.tranmission}</div>
+                                </div>
+                            </div>
+                            <br class="clear" />
+                            <div>
+                                <c:set var="description" value="${fn:split(requestScope.car.description, '/')}" />
+                                <h4>Overview</h4>
+                                <p>${description[0]}</p>
+                                <h4>Engine, Transmission, and Performance</h4>
+                                <p>${description[1]}</p>
+                            </div>
+                            <div>
+                                <%CommentDAO cmdb = new CommentDAO();%>
+                                <%OrderDAO odb = new OrderDAO();%>
+                                <%Car car = (Car) request.getAttribute("car");%>
+                                <%request.setAttribute("listComment", cmdb.getCommentByCarId(car.getId()));%>
+                                <%request.setAttribute("countComment", cmdb.countCommentByCarId(car.getId()));%>
+                                <h3 class="comment_title">${requestScope.countComment} Review(s)</h3>
+                                <c:forEach items="${requestScope.listComment}" var="cm">
+                                    <div  id="comment-1">
+                                        <p style="font-size:125%; font-weight: bold; margin: 0">${cm.account.fullname}</p>
+                                        <div class="comment_date" style="font-size: 13px;">${cm.createOn}</div>
+                                        <p>${cm.content}</p>
+                                        <br class="clear">
+                                    </div>
+                                    <hr>
+                                </c:forEach>
+                                <div id="respond" class="comment-respond">
+                                    <h3 id="reply-title" class="comment-reply-title">Write A Review <small><a rel="nofollow" id="cancel-comment-reply-link" href="#" style="display:none;">Cancel reply</a></small></h3>
+                                    <form action="../../Demo/comment?carid=${requestScope.car.id}" method="post" id="commentform" >
+                                        <p class="comment-form-comment">
+                                            Comment
+                                            <textarea name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea>
+                                        </p>
+                                        <c:if test="${sessionScope.user != null && sessionScope.user.type == 1}">
+                                            <%Account account = (Account) session.getAttribute("user");%>
+                                            <%request.setAttribute("isValidComment", cmdb.validComment(account.getUsername(), car.getId()));%>
+                                            <c:if test="${requestScope.isValidComment}">
+                                                <p class="form-submit" > <input type="submit" value="Post Review"> </p>
+                                                </c:if>
+                                                <c:if test="${!requestScope.isValidComment}">
+                                                <p class="button" style="width: 226.19px; height: 45.45px; margin: 25px;">
+                                                    You need to rent this car
+                                                </p>
+                                            </c:if>
+                                        </c:if>
+                                        <c:if test="${sessionScope.user == null || (sessionScope.user != null && sessionScope.user.type == 2)}">
+                                            <button class="button" style="width: 226.19px; height: 45.45px; margin: 25px;">
+                                                <a href="../../Demo/pages/login.jsp" style="color: #fff;">Sign in to renter account</a>
+                                            </button>
+                                        </c:if>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="sidebar_wrapper">
                             <div class="single_car_booking_wrapper">
                                 <div class="single_car_header_content">
@@ -143,7 +248,10 @@
                                 <br class="clear" />
                             </div> 
                             <br class="clear" />
-                        </div>              
+                        </div>
+                    </div>
+                </div>
+            </c:if>
             <%@include file="footer.jsp" %>
         </div>
     </body>
