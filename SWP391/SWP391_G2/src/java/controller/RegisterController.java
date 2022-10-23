@@ -88,24 +88,29 @@ public class RegisterController extends HttpServlet {
             String city = request.getParameter("city");
             int phone = Integer.parseInt(request.getParameter("phone"));
             int type;
+            //Check user is jobber or customer: 1:Customer 
             if (request.getParameter("type").equals("jobber")) {
-                type = 2;
+                type = 2;//Is Jobber
             } else {
                 type = 1;
             }
             AccountDAO db = new AccountDAO();
+            //Check email exist?
             if (db.existedEmail(email, username, 1)) {
                 request.setAttribute("error", "Email address already exists!");
                 request.getRequestDispatcher("/pages/login.jsp").forward(request, response);
             }
+            //Check phone number exist?
             if (db.existedPhone(phone, username, 1)) {
                 request.setAttribute("error", "Phone number already exists!");
                 request.getRequestDispatcher("/pages/login.jsp").forward(request, response);
             }
+             //Check username exist?
             if (db.getAcount(username, password, 2) != null) {
                 request.setAttribute("error", "Username already exists!");
                 request.getRequestDispatcher("/pages/login.jsp").forward(request, response);
             }
+             //Check if the re-entered password matches ?
             if (!password.equals(cf_password)) {
                 request.setAttribute("error", "The password does not match!");
                 request.getRequestDispatcher("/pages/login.jsp").forward(request, response);
